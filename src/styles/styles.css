@@ -174,3 +174,51 @@ h1 {
 h2 {
   color: var(--color-text-header);
 }
+
+/*concept section and buttons for examples*/
+/* styles.css */
+
+.concept-section {
+  padding: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  margin-top: 2rem;
+  background-color: #f9f9f9;
+}
+
+.concept-section h1 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.example {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #eef;
+  border-radius: 8px;
+}
+
+.example button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.example button:hover {
+  background-color: #0056b3;
+}
+
+.example-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.concept-section {
+  margin-bottom: 2rem;
+}
