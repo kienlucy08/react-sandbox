@@ -29,7 +29,8 @@
     "node": "14.x"
   },
   "repository": {
-    "url": "https://kienlucy08.github.io/react-sandbox/"
+    "type": "git",
+    "url": "https://github.com/kienlucy08/react-sandbox"
   },
   "glitch": {
     "projectType": "generated_static"
