@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import JSXExample from "../examples/JSXExample";
+import CodePractice from "../examples/CodeExample"
 import EffectExample from "../examples/EffectExample";
 
 function CounterExample() {
@@ -12,7 +13,6 @@ function CounterExample() {
     </div>
   );
 }
-
 
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
@@ -63,6 +63,7 @@ export default function LearnReactBasics() {
             <li>
               <strong>JSX (JavaScript + XML):</strong> Components must return a single parent element.
               <br />
+              <br />
               <strong>Analogy:</strong>
               <p><em>Like putting groceries in one bag — many items, one container (a single parent div).</em></p>
               <pre>{`return(  
@@ -70,9 +71,22 @@ export default function LearnReactBasics() {
       <h1>Hello!</h1>
     </div>
   );`}</pre>
+              <CodePractice
+                prompt="Write a component that returns a single <div> with two paragraphs."
+                defaultCode={`return(\n <div> \n  *Enter Code here*\n    \n     \n </div>\n)`}
+                onEvaluate={(code) => {
+                  if (code.includes("<div>") && code.includes("<p>") && code.includes("</div>")) {
+                    return "✅ Nice! Looks like valid JSX.";
+                  }
+                  return "❌ Make sure you return a single parent element.";
+                }}
+              />
+
+
             </li>
             <li>
               <strong>Props (like HTML attributes):</strong> Use camelCase, and wrap values in braces for expressions.
+              <br />
               <br />
               <strong>Analogy:</strong>
               <p><em>Props are like labeled packages you pass to a friend. They can read them but shouldn't change them.</em></p>
@@ -82,6 +96,7 @@ export default function LearnReactBasics() {
             <li>
               <strong>useState and Destructuring:</strong> Common way to track component state.
               <br />
+              <br />
               <strong>Analogy:</strong>
               <p><em>Like a whiteboard where you can update the count — and React will re-render each time you erase and write a new number.</em></p>
               <pre>{`const [count, setCount] = useState(0);`}</pre>
@@ -90,6 +105,7 @@ export default function LearnReactBasics() {
             <li>
               <strong>Event Handlers:</strong> Write handlers inline or as named functions.
               <br />
+              <br />
               <strong>Analogy:</strong>
               <p><em>Like assigning a task to a robot: "When button is pressed, say 'Hi!'".</em></p>
               <pre>{`<button onClick={() => alert('clicked!')}>Click</button>`}</pre>
@@ -97,6 +113,7 @@ export default function LearnReactBasics() {
             </li>
             <li>
               <strong>Fragments (`&lt;&gt; &lt;/&gt;`):</strong> Use when you don’t want extra DOM nodes.
+              <br />
               <br />
               <strong>Analogy:</strong>
               <p><em>Like clear plastic dividers - structure  without extra walls.</em></p>
@@ -110,6 +127,7 @@ export default function LearnReactBasics() {
             <li>
               <strong>Optional Chaining (`?.`):</strong> Avoid crashes on undefined values.
               <br />
+              <br />
               <strong>Analogy:</strong>
               <p><em>Like checking if a door is unlocked before opening it.</em></p>
               <pre>{`const name = user?.profile?.name;`}</pre>
@@ -117,6 +135,7 @@ export default function LearnReactBasics() {
 
             <li>
               <strong>CSS Modules:</strong> Scope styles locally in `.module.css` files.
+              <br />
               <br />
               <strong>Analogy:</strong>
               <p><em>Like wearing a tailored outfit - no style clashes with others.</em></p>
@@ -126,6 +145,7 @@ export default function LearnReactBasics() {
             <li>
               <strong>Class vs Functional Components:</strong> Today, prefer functional components with hooks.
               <br />
+              <br />
               <strong>Analogy:</strong>
               <p><em>Class components are like manual cars; functional ones are like automatic EVs - newer and smoother</em></p>
               <pre>{`function Welcome({ name }) {
@@ -134,6 +154,7 @@ export default function LearnReactBasics() {
             </li>
             <li>
               <strong>Map & Keys:</strong> Looping in JSX requires a unique key.
+              <br />
               <br />
               <strong>Analogy:</strong>
               <p><em>Like naming each item in a checklist so React knows exactly which one to update.</em></p>
