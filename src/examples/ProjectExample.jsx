@@ -1,9 +1,7 @@
 import { useState } from "react";
-import prettier from "prettier/standalone";
-import parserBabel from "prettier/plugins/babel";
 import * as Babel from "@babel/standalone";
 
-export default function CodePractice({ prompt, defaultCode, hint, answer, onEvaluate }) {
+export default function ProjectPractice({ prompt, extraContent, defaultCode, hint, answer, onEvaluate }) {
     const [code, setCode] = useState(defaultCode);
     const [output, setOutput] = useState("");
     const [error, setError] = useState("");
@@ -11,15 +9,42 @@ export default function CodePractice({ prompt, defaultCode, hint, answer, onEval
     const [showHint, setShowHint] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false);
 
+    const transpileCode = () => {
+        try {
+            const transformedCode = Babel.transform(code, {
+                presets: ["react", "env"],
+            }).code;
+            return transformedCode;
+        } catch (e) {
+            setError(e.message);
+            return null;
+        }
+    };
+
     const handleRun = () => {
         setError("");
+        const transpiled = transpileCode();
+        if (!transpiled) return;
         try {
-            const result = onEvaluate(code);
+            const result = onEvaluate(transpiled);
             setOutput(result);
         } catch (err) {
             setError("⚠️ Error: " + err.message);
         }
         setHasAttempted(true);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Tab") {
+            e.preventDefault();
+            const textarea = e.target;
+            const { selectionStart, selectionEnd } = textarea;
+            const newCode = code.substring(0, selectionStart) + "  " + code.substring(selectionEnd);
+            setCode(newCode);
+            requestAnimationFrame(() => {
+                textarea.selectionStart = textarea.selectionEnd = selectionStart + 2;
+            });
+        }
     };
 
     // const handlePrettify = () => {
@@ -41,10 +66,12 @@ export default function CodePractice({ prompt, defaultCode, hint, answer, onEval
     return (
         <div className="code-practice">
             <p>{prompt}</p>
+            {extraContent}
             <textarea
-                rows={8}
+                rows={25}
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
+                onKeyDown={handleKeyDown}
                 style={{ width: "100%", fontFamily: "monospace", fontSize: "14px" }}
             />
             <div style={{ display: "flex", gap: "10px", marginTop: "0.5rem" }}>
@@ -86,13 +113,12 @@ export default function CodePractice({ prompt, defaultCode, hint, answer, onEval
                     {answer}
                 </pre>
             )}
-
-            {/* {error && <pre style={{color:"red", marginTop: "1rem"}}>{error}</pre>}
+            
+            {error && <pre style={{color:"red", marginTop: "1rem"}}>{error}</pre>}
             <div style={{marginTop:"1rem", border:"1px dashed #ccc", padding:"1rem"}}>
                 <strong>Live Output:</strong>
                 <div>{output}</div>
-            </div> */}
+            </div>
         </div>
     );
 }
-

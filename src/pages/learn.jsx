@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import JSXExample from "../examples/JSXExample";
 import CodePractice from "../examples/CodeExample"
 import EffectExample from "../examples/EffectExample";
+import ProjectPractice from "../examples/ProjectExample";
 
 function CounterExample() {
   const [count, setCount] = React.useState(0);
@@ -19,6 +20,9 @@ export default function LearnReactBasics() {
   const [showJSX, setShowJSX] = useState(false);
   const [showUseEffect, setShowUseEffect] = useState(false);
   const [showFunctions, setShowFunctions] = useState(false);
+  const [showProps, setShowProps] = useState(false);
+  const [showEvent, setShowEvent] = useState(false);
+  const [showModules, setShowModules] = useState(false);
 
   const handleClick = () => {
     alert("Button clicked!");
@@ -52,7 +56,7 @@ export default function LearnReactBasics() {
         <h2
           onClick={() => setShowSyntax((prev) => !prev)}
           style={{ cursor: "pointer", userSelect: "none" }}>
-          {showSyntax ? "▼" : "▶"} 1. Syntax
+          {showSyntax ? "▼" : "▶"} 1. Syntax (Overview of JSX, props, useState, etc.)
         </h2>
         {showSyntax && (
 
@@ -106,7 +110,7 @@ export default function LearnReactBasics() {
                 prompt="Write a button component that takes a 'label' prop and displays it inside."
                 defaultCode={`function LabeledButton({ label }) {
   return (
-    *Enter JSX here*
+    /*Enter JSX here*/ \n \n 
   );
 }`}
                 hint="Insert the label prop inside the button using curly braces: {label}."
@@ -381,32 +385,36 @@ export function MyComponent() {
         )}
 
       </section>
-
-
       <section className="concept-section">
         <h2
           onClick={() => setShowJSX((prev) => !prev)}
           style={{ cursor: "pointer", userSelect: "none" }}
         >
-          {showJSX ? "▼" : "▶"}  2. JSX
+          {showJSX ? "▼" : "▶"}  2. JSX Deep Dive
         </h2>
         {showJSX &&
           <JSXExample />
         }
       </section>
 
-      {/* Uncomment once UseStateExample is fixed */}
-      {/* <section className="concept-section">
-        <h2>2. useState</h2>
-        <UseStateExample />
-      </section> */}
+      <section className="concept-section">
+        <h2
+          onClick={() => setShowProps((prev) => !prev)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
+          {showProps ? "▼" : "▶"} 3. Props
+        </h2>
+        {showProps &&
+          <p>YOOOO</p>
+        }
+      </section>
 
       <section className="concept-section">
         <h2
           onClick={() => setShowUseEffect((prev) => !prev)}
           style={{ cursor: "pointer", userSelect: "none" }}
         >
-          {showUseEffect ? "▼" : "▶"} 3. useEffect
+          {showUseEffect ? "▼" : "▶"} 4. State, useEffect and useState
         </h2>
         {showUseEffect &&
           <EffectExample />
@@ -415,10 +423,231 @@ export function MyComponent() {
 
       <section className="concept-section">
         <h2
+          onClick={() => setShowEvent((prev) => !prev)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
+          {showEvent ? "▼" : "▶"} 5. Event Handling
+        </h2>
+        {showEvent &&
+          <div>
+            <p>
+              <strong>What is Event Handling?</strong><br />
+              Event handling in JavaScript refers to writing code that listens for and responds to user intereaction or browser actions - such as clicks, key presses, mouse movements, form submission, etc.
+            </p>
+            <p>
+              <strong>Why is it important?</strong><br />
+              React uses a synthetic event system (a wrapper around the browser's native events) for consistency across all browsers. You assign event handlers directly to JSX elements using camelCase props like <code>onClick</code>, <code>onChange</code>, <code>onSubmit</code>, etc.
+            </p>
+
+            <pre><code>{`function Example() {
+      const handleClick = () => {
+        alert("Button Clicked!");
+      };
+
+      return <button onClick{handleClick}>Click me</button>;
+ }`}</code></pre>
+
+            <p>
+              <strong>Common Events in React:</strong>
+            </p>
+            <ul>
+              <li><code>onClick</code> - when a user clicks an element</li>
+              <li><code>onChange</code> - when a value changes (like in an input)</li>
+              <li><code>onSubmit</code> - when a form is submitted</li>
+              <li><code>onMouseEnter</code> / <code>onMouseLeave</code> - mouse hover events</li>
+              <li><code>onKeyDown</code> / <code>onKeyUp</code> - keyboard events</li>
+            </ul>
+
+            <p>
+              <strong>Tips:</strong>
+            </p>
+            <ul>
+              <li>Always use functions for handlers, not strings.</li>
+              <li>Arrow functions can help with context (no need for binding)</li>
+              <li>You can access the event object using the handler's first argument (e.g., <code>handleClick = (event) =&gt; { /* ... */}</code>).</li>
+              <li>To prevent default behavior (like form submission refreshing the page), call <code>event.preventDefault()</code>.</li>
+            </ul>
+            <ProjectPractice
+              prompt={`You will now make a project that incorporates all of these Event Handlers. It will help solidify your knowledge of how they work within React.
+
+You will start with a Profile function. Try combining them into a small interactive profile form. It should respond to input, show hover behavior, handle form submission, and react to key presses. You will need to update the profile's name live as the user types in the input. At the end of this project, users should be able to comfortably write and use:`}
+              extraContent={
+                <ul>
+                  <li><code>onChange</code>: Capture input changes and update the state with <code>setName(value)</code></li>
+                  <li><code>onClick</code>: Trigger an action when a button is clicked (e.g., show an alert with the name)</li>
+                  <li><code>onSubmit</code>: Wrap the input in a form and prevent default submission with <code>e.preventDefault()</code>, then handle the submission logic.</li>
+                  <li><code>onMouseEnter</code> / <code>onMouseLeave</code>: Change some visual feedback (like hover text or color) when the mouse enters or leaves an element.</li>
+                  <li><code>onKeyDown</code> / <code>onKeyUp</code>: Detect specific keys being pressed and react (e.g., log to console or change a message while typing).</li>
+                </ul>
+              }
+              defaultCode={`function Profile() {
+  const [name, setName] = React.useState("");
+  const [submitted, setSubmitted] = React.useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add submit logic here
+  };
+
+  const handleReset = () => {
+    // Reset the name
+  };
+
+  const handleMouseEnter = () => {
+    // Optional: Change style or show message
+  };
+
+  const handleMouseLeave = () => {
+    // Optional: Revert style or message
+  };
+
+  const handleKeyDown = (e) => {
+    // Optional: Log or detect Enter
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        placeholder="Enter your name" 
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <button type="submit">Submit</button>
+      <button type="button" onClick={handleReset}>Reset</button>
+      <p 
+        onMouseEnter={handleMouseEnter} 
+        onMouseLeave={handleMouseLeave}
+      >
+        Hello, {name}
+      </p>
+      {submitted && <p>Form Submitted!</p>}
+    </form>
+  );
+}
+`}
+              hint={[
+                "Use useState to store both the name and submission status",
+                "Use onChange to update the name live",
+                "Use onClick to reset the name",
+                "Use onSubmit to capture form submission",
+                "Use onMouseEnter / onMouseLeave for hover effects",
+                "Use onKeyDown to listen for key presses (like Enter)"
+              ]}
+
+              answer={`function Profile() {
+  const [name, setName] = React.useState("");
+  const [submitted, setSubmitted] = React.useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  const handleReset = () => {
+    setName("");
+    setSubmitted(false);
+  };
+
+  const handleMouseEnter = () => {
+    console.log("Mouse entered!");
+  };
+
+  const handleMouseLeave = () => {
+    console.log("Mouse left!");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      console.log("Enter pressed");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        placeholder="Enter your name" 
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <button type="submit">Submit</button>
+      <button type="button" onClick={handleReset}>Reset</button>
+      <p 
+        onMouseEnter={handleMouseEnter} 
+        onMouseLeave={handleMouseLeave}
+      >
+        Hello, {name}
+      </p>
+      {submitted && <p>Form Submitted!</p>}
+    </form>
+  );
+}
+`}
+              onEvaluate={(code) => {
+                const requiredHandlers = [
+                  "onChange",
+                  "onClick",
+                  "onSubmit",
+                  "onMouseEnter",
+                  "onMouseLeave",
+                  "onKeyDown",
+                ];
+
+                // Check if all required handlers appear in the code string
+                const missingHandlers = requiredHandlers.filter(
+                  (handler) => !code.includes(handler)
+                );
+
+                if (missingHandlers.length > 0) {
+                  return `⚠️ Missing event handlers: ${missingHandlers.join(", ")}`;
+                }
+
+                // Try to create the component (to check for syntax errors)
+                try {
+                  const wrapped = `
+      return (function(React) {
+        ${code}
+        return Profile;
+      });
+    `;
+                  const createComponent = new Function(wrapped)();
+                  createComponent(React); // instantiate component to check no errors
+                } catch (err) {
+                  return `⚠️ Error in code: ${err.message}`;
+                }
+
+                // If everything passes:
+                return "✅ Success! All event handlers are implemented and code runs without errors.";
+              }}
+
+
+
+            />
+          </div>
+        }
+      </section>
+
+      <section className="concept-section">
+        <h2
+          onClick={() => setShowModules((prev) => !prev)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
+          {showModules ? "▼" : "▶"} 6. CSS Modules
+        </h2>
+        {showModules &&
+          <p>yes</p>
+        }
+      </section>
+
+      <section className="concept-section">
+        <h2
           onClick={() => setShowFunctions((prev) => !prev)}
           style={{ cursor: "pointer", userSelect: "none" }}
         >
-          {showFunctions ? "▼" : "▶"}4. Functions in React
+          {showFunctions ? "▼" : "▶"}6. Functions in React
         </h2>
         {showFunctions && (
           <p>Coming soon: Explore how functional components and hooks make React powerful and clean.</p>
