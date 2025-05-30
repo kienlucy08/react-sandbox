@@ -1,9 +1,12 @@
 import { useState } from "react";
 import * as Babel from "@babel/standalone";
+import React from "react";
 
-export default function ProjectPractice({ prompt, extraContent, defaultCode, hint, answer, onEvaluate }) {
+export default function ProjectPractice({projectId, prompt, extraContent, defaultCode, hint, answer, onEvaluate }) {
     const [code, setCode] = useState(defaultCode);
     const [output, setOutput] = useState("");
+    const [renderedComponent, setRenderedComponent] = useState(null);
+    const [outputMessage, setOutputMessage] = useState("");
     const [error, setError] = useState("");
     const [hasAttempted, setHasAttempted] = useState(false);
     const [showHint, setShowHint] = useState(false);
@@ -23,16 +26,43 @@ export default function ProjectPractice({ prompt, extraContent, defaultCode, hin
 
     const handleRun = () => {
         setError("");
+        setOutputMessage("");
+
         const transpiled = transpileCode();
-        if (!transpiled) return;
+
+        if (!transpiled) {
+            // Don't proceed if transpiling failed
+            return;
+        }
+
         try {
             const result = onEvaluate(transpiled);
-            setOutput(result);
+
+            if (typeof result === "object" && result.message !== undefined) {
+                setOutputMessage(result.message);
+
+                try {
+                    // Dynamically create component
+                    const componentFunc = new Function("React", `${transpiled}; return Profile;`)(React);
+                    const component = React.createElement(componentFunc);
+                    setRenderedComponent(component);
+                } catch (evalErr) {
+                    setError("⚠️ Runtime Error: " + evalErr.message);
+                    setRenderedComponent(null);
+                }
+            } else {
+                setOutputMessage(result);
+                setRenderedComponent(null);
+            }
         } catch (err) {
-            setError("⚠️ Error: " + err.message);
+            setError("⚠️ Execution Error: " + err.message);
+            setRenderedComponent(null);
         }
+
         setHasAttempted(true);
     };
+
+
 
     const handleKeyDown = (e) => {
         if (e.key === "Tab") {
@@ -65,7 +95,8 @@ export default function ProjectPractice({ prompt, extraContent, defaultCode, hin
 
     return (
         <div className="code-practice">
-            <p>{prompt}</p>
+            <p><strong>This a project '{projectId}'!</strong></p>
+            <p><strong>Prompt: </strong>{prompt}</p>
             {extraContent}
             <textarea
                 rows={25}
@@ -87,7 +118,7 @@ export default function ProjectPractice({ prompt, extraContent, defaultCode, hin
                     </>
                 )}
             </div>
-            <pre style={{ background: "#f3f3f3", padding: "0.5em" }}>{output}</pre>
+            <pre style={{ background: "#f3f3f3", padding: "0.5em" }}>{outputMessage}</pre>
             {showHint && hint && (
                 <div style={{ background: "#fff8dc", padding: "0.5em", marginTop: "0.5rem" }}>
                     💡 <strong>Hint{Array.isArray(hint) && hint.length > 1 ? "s" : ""}:</strong>
@@ -113,11 +144,11 @@ export default function ProjectPractice({ prompt, extraContent, defaultCode, hin
                     {answer}
                 </pre>
             )}
-            
-            {error && <pre style={{color:"red", marginTop: "1rem"}}>{error}</pre>}
-            <div style={{marginTop:"1rem", border:"1px dashed #ccc", padding:"1rem"}}>
+
+            {error && <pre style={{ color: "red", marginTop: "1rem" }}>{error}</pre>}
+            <div style={{ marginTop: "1rem", border: "1px dashed #ccc", padding: "1rem" }}>
                 <strong>Live Output:</strong>
-                <div>{output}</div>
+                <div>{renderedComponent}</div>
             </div>
         </div>
     );

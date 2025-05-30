@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import JSXExample from "../examples/JSXExample";
 import CodePractice from "../examples/CodeExample"
 import EffectExample from "../examples/EffectExample";
 import ProjectPractice from "../examples/ProjectExample";
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
+
 
 function CounterExample() {
   const [count, setCount] = React.useState(0);
@@ -15,6 +18,8 @@ function CounterExample() {
   );
 }
 
+const allProjectIds = ["eventHandlers"]
+
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
   const [showJSX, setShowJSX] = useState(false);
@@ -23,6 +28,30 @@ export default function LearnReactBasics() {
   const [showProps, setShowProps] = useState(false);
   const [showEvent, setShowEvent] = useState(false);
   const [showModules, setShowModules] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const { width, height } = useWindowSize();
+  const [completedProjects, setCompletedProjects] = useState(() => {
+    const saved = localStorage.getItem("reactBasicsProgress");
+    return saved ? JSON.parse(saved) : [];
+  })
+
+  const markCompleted = (projectId) => {
+    if (!completedProjects.includes(projectId)) {
+      const updated = [...completedProjects, projectId];
+      localStorage.setItem("reactBasicsProgress", JSON.stringify(updated));
+      setCompletedProjects(updated);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 100000);
+    }
+  }
+
+  const resetProgress = () => {
+    localStorage.removeItem("reactBasicsProgress");
+    setCompletedProjects([]);
+  };
+
+  const total = allProjectIds.length;
+  const completed = completedProjects.length;
 
   const handleClick = () => {
     alert("Button clicked!");
@@ -30,6 +59,7 @@ export default function LearnReactBasics() {
 
   return (
     <div className="page">
+      {showConfetti && <Confetti width={width} height={height} />}
       <h1>React Basics</h1>
 
       <section className="intro-section">
@@ -37,6 +67,15 @@ export default function LearnReactBasics() {
           Welcome to your React learning journey! React is a powerful JavaScript library for building user interfaces, particularly for single-page applications where you need fast, interactive experiences. In React, you build UIs using components — reusable building blocks that manage their own logic and rendering.
         </p>
         <strong>Note * Do not worry about indenting your code in the coding examples, just about the content!</strong>
+        <strong>✅ {completed} of {total} projects completed.</strong>
+        <button onClick={resetProgress} style={{ marginTop: "1rem" }}>
+          🔄 Reset Progress
+        </button>
+        {completed === total && (
+          <p style={{ color: "green", fontWeight: "bold" }}>
+            🎉 You’ve completed the React Basics!
+          </p>
+        )}
 
         <div className="tips-box">
           <h3>Tips for Learning React</h3>
@@ -468,6 +507,7 @@ export function MyComponent() {
               <li>To prevent default behavior (like form submission refreshing the page), call <code>event.preventDefault()</code>.</li>
             </ul>
             <ProjectPractice
+              projectId="eventHandlers"
               prompt={`You will now make a project that incorporates all of these Event Handlers. It will help solidify your knowledge of how they work within React.
 
 You will start with a Profile function. Try combining them into a small interactive profile form. It should respond to input, show hover behavior, handle form submission, and react to key presses. You will need to update the profile's name live as the user types in the input. At the end of this project, users should be able to comfortably write and use:`}
@@ -483,26 +523,31 @@ You will start with a Profile function. Try combining them into a small interact
               defaultCode={`function Profile() {
   const [name, setName] = React.useState("");
   const [submitted, setSubmitted] = React.useState(false);
+  const [hoverStatus, setHoverStatus] = React.useState("");
+  const [keyStatus, setKeyStatus] = React.useState("");
+
+  const handleOnChange = (e) => {
+    // TODO: Handle the change event as the user is typing their name
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add submit logic here
+    // TODO: Prevent default and mark as submitted
   };
 
   const handleReset = () => {
-    // Reset the name
+    // TODO: Clear the name and mark as not submitted
   };
 
   const handleMouseEnter = () => {
-    // Optional: Change style or show message
+    // TODO: Set "Mouse Entered" as the hoverStatus
   };
 
   const handleMouseLeave = () => {
-    // Optional: Revert style or message
+    // TODO: Set "Mouse Left" as the hoverStatus
   };
 
   const handleKeyDown = (e) => {
-    // Optional: Log or detect Enter
+    // TODO: Set "Enter Pressed" if "Enter" was pressed as the keyStatus
   };
 
   return (
@@ -511,7 +556,7 @@ You will start with a Profile function. Try combining them into a small interact
         type="text" 
         placeholder="Enter your name" 
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={handleOnChange}
         onKeyDown={handleKeyDown}
       />
       <button type="submit">Submit</button>
@@ -523,6 +568,10 @@ You will start with a Profile function. Try combining them into a small interact
         Hello, {name}
       </p>
       {submitted && <p>Form Submitted!</p>}
+      <div style={{marginTop: "1rem", color: "gray"}}>
+        {hoverStatus && <p>{hoverStatus}</p>}
+        {keyStatus && <p>{keyStatus}</p>}
+      </div>
     </form>
   );
 }
@@ -539,6 +588,12 @@ You will start with a Profile function. Try combining them into a small interact
               answer={`function Profile() {
   const [name, setName] = React.useState("");
   const [submitted, setSubmitted] = React.useState(false);
+  const [hoverStatus, setHoverStatus] = React.useState("");
+  const [keyStatus, setKeyStatus] = React.useState("");
+
+  const handleOnChange = (e) => {
+    setName(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -551,16 +606,16 @@ You will start with a Profile function. Try combining them into a small interact
   };
 
   const handleMouseEnter = () => {
-    console.log("Mouse entered!");
+    setHoverStatus("Mouse Entered!");
   };
 
   const handleMouseLeave = () => {
-    console.log("Mouse left!");
+    setHoverStatus("Mouse left!");
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      console.log("Enter pressed");
+      setKeyStatus("Enter pressed");
     }
   };
 
@@ -570,7 +625,7 @@ You will start with a Profile function. Try combining them into a small interact
         type="text" 
         placeholder="Enter your name" 
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={handleOnChange}
         onKeyDown={handleKeyDown}
       />
       <button type="submit">Submit</button>
@@ -582,48 +637,76 @@ You will start with a Profile function. Try combining them into a small interact
         Hello, {name}
       </p>
       {submitted && <p>Form Submitted!</p>}
+      <div style={{marginTop: "1rem", color: "gray"}}>
+        {hoverStatus && <p>{hoverStatus}</p>}
+        {keyStatus && <p>{keyStatus}</p>}
+      </div>
     </form>
   );
 }
 `}
-              onEvaluate={(code) => {
-                const requiredHandlers = [
-                  "onChange",
-                  "onClick",
-                  "onSubmit",
-                  "onMouseEnter",
-                  "onMouseLeave",
-                  "onKeyDown",
-                ];
+              onEvaluate={(transpiledCode) => {
+                const messages = [];
 
-                // Check if all required handlers appear in the code string
-                const missingHandlers = requiredHandlers.filter(
-                  (handler) => !code.includes(handler)
-                );
-
-                if (missingHandlers.length > 0) {
-                  return `⚠️ Missing event handlers: ${missingHandlers.join(", ")}`;
+                if (!transpiledCode.includes("useState")) {
+                  messages.push("❌ Missing useState for managing state.");
                 }
 
-                // Try to create the component (to check for syntax errors)
+                if (!transpiledCode.includes("handleOnChange") || !transpiledCode.includes("setName(")) {
+                  messages.push("❌ Use handleOnchange to update the name live with setName().");
+                }
+
+                if (!transpiledCode.includes("handleSubmit") || !transpiledCode.includes("e.preventDefault")) {
+                  messages.push("❌ Use handleSubmit and preventDefault() to handle form submission properly.");
+                }
+
+                if (!transpiledCode.includes("handleReset") || !transpiledCode.includes("setName(") || !transpiledCode.includes("setSubmitted(false)")) {
+                  messages.push("❌ Use handleReset, setName, and setSubmitted to handle form resetting properly.");
+                }
+
+                if (!transpiledCode.includes("onClick") || !transpiledCode.includes("handleReset")) {
+                  messages.push("❌ Use onClick on a reset button to clear the input and reset state.");
+                }
+
+                if (
+                  !transpiledCode.includes("handleMouseEnter") ||
+                  !transpiledCode.includes("handleMouseLeave") ||
+                  (
+                    !transpiledCode.includes("setHoverStatus(")
+                  )
+                ) {
+                  messages.push("❌ Use handleMouseEnter and handleMouseLeave and update with setting statements for hover behavior.");
+                }
+
+                if (!transpiledCode.includes("handleKeyDown") || !transpiledCode.includes('e.key === "Enter"') || !transpiledCode.includes("setKeyStatus(")) {
+                  messages.push("❌ Use handleKeyDown to detect the Enter key being pressed.");
+                }
+
+                if (!transpiledCode.includes("submitted") || !transpiledCode.includes("Form Submitted")) {
+                  messages.push("❌ Display a message like 'Form Submitted!' when the form is submitted.");
+                }
+
+                const passed = messages.length === 0;
+
+                const message = passed
+                  ? "✅ Awesome! You’ve correctly implemented all required event handlers and interactions."
+                  : messages.join("\n");
+
+
+
+                if (passed && typeof markCompleted === "function") {
+                  markCompleted("eventHandlers"); // ✅ mark project as completed
+                }
+
                 try {
-                  const wrapped = `
-      return (function(React) {
-        ${code}
-        return Profile;
-      });
-    `;
-                  const createComponent = new Function(wrapped)();
-                  createComponent(React); // instantiate component to check no errors
+                  // Use Babel-transpiled code (should define and return a component like Profile)
+                  const componentFunc = new Function("React", `${transpiledCode}; return Profile;`);
+                  const component = React.createElement(componentFunc(React));
+                  return { message, component };
                 } catch (err) {
-                  return `⚠️ Error in code: ${err.message}`;
+                  return { message: `❌ Code Error: ${err.message}`, component: null };
                 }
-
-                // If everything passes:
-                return "✅ Success! All event handlers are implemented and code runs without errors.";
               }}
-
-
 
             />
           </div>
