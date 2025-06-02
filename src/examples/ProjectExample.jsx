@@ -2,9 +2,8 @@ import { useState } from "react";
 import * as Babel from "@babel/standalone";
 import React from "react";
 
-export default function ProjectPractice({projectId, prompt, extraContent, defaultCode, hint, answer, onEvaluate }) {
+export default function ProjectPractice({projectId, prompt, extraContent, defaultCode, hint, answer, onEvaluate, rootComponent}) {
     const [code, setCode] = useState(defaultCode);
-    const [output, setOutput] = useState("");
     const [renderedComponent, setRenderedComponent] = useState(null);
     const [outputMessage, setOutputMessage] = useState("");
     const [error, setError] = useState("");
@@ -43,7 +42,7 @@ export default function ProjectPractice({projectId, prompt, extraContent, defaul
 
                 try {
                     // Dynamically create component
-                    const componentFunc = new Function("React", `${transpiled}; return Profile;`)(React);
+                    const componentFunc = new Function("React", `${transpiled}; return ${rootComponent};`)(React);
                     const component = React.createElement(componentFunc);
                     setRenderedComponent(component);
                 } catch (evalErr) {

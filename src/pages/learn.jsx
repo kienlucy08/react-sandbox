@@ -18,7 +18,7 @@ function CounterExample() {
   );
 }
 
-const allProjectIds = ["eventHandlers"]
+const allProjectIds = ["eventHandlers", "propPractice"]
 
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
@@ -30,6 +30,7 @@ export default function LearnReactBasics() {
   const [showModules, setShowModules] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
+  const [showStatusBar, setShowStatusBar] = useState(true);
   const [completedProjects, setCompletedProjects] = useState(() => {
     const saved = localStorage.getItem("reactBasicsProgress");
     return saved ? JSON.parse(saved) : [];
@@ -62,20 +63,31 @@ export default function LearnReactBasics() {
       {showConfetti && <Confetti width={width} height={height} />}
       <h1>React Basics</h1>
 
+      <button
+        onClick={() => setShowStatusBar(!showStatusBar)}
+        className={`status-toggle-button ${showStatusBar ? "visible" : "hidden"}`}
+      >
+        {showStatusBar ? "⬇" : "⬆"}
+      </button>
+
+      <div className={`status-bar-container ${showStatusBar ? "visible" : "hidden"}`}>
+        <div className="status-bar-content">
+          <div>
+            <strong>✅ {completed} of {total} projects completed.</strong>
+            {completed === total && (
+              <span className="completion-message">🎉 You’ve completed the React Basics!</span>
+            )}
+          </div>
+          <button onClick={resetProgress}>🔄 Reset Progress</button>
+        </div>
+      </div>
+
+
       <section className="intro-section">
         <p>
           Welcome to your React learning journey! React is a powerful JavaScript library for building user interfaces, particularly for single-page applications where you need fast, interactive experiences. In React, you build UIs using components — reusable building blocks that manage their own logic and rendering.
         </p>
-        <strong>Note * Do not worry about indenting your code in the coding examples, just about the content!</strong>
-        <strong>✅ {completed} of {total} projects completed.</strong>
-        <button onClick={resetProgress} style={{ marginTop: "1rem" }}>
-          🔄 Reset Progress
-        </button>
-        {completed === total && (
-          <p style={{ color: "green", fontWeight: "bold" }}>
-            🎉 You’ve completed the React Basics!
-          </p>
-        )}
+        <br />
 
         <div className="tips-box">
           <h3>Tips for Learning React</h3>
@@ -444,7 +456,145 @@ export function MyComponent() {
           {showProps ? "▼" : "▶"} 3. Props
         </h2>
         {showProps &&
-          <p>YOOOO</p>
+          <div>
+            <p>
+              <strong>What are Props?</strong><br />
+              Props (short for "properties") are how components talk to each other in React. They are read-only values passed from a parent component to a child.
+            </p>
+            <p>
+              <strong>Why are they important?</strong><br />
+              They allow componets to be reusable and dynamic. You can pass in different data each time you use a componet, keeping you UI flexible and maintainable.
+            </p>
+            <pre><code>{`     function Welcome(props){
+          return <h1>Hello, {props.name}!</h1>
+      }
+      
+      function App() {
+        return <Welcome name="Alice" />;
+      }`}</code></pre>
+            <p>
+              <strong>Common Props Use Cases:</strong>
+              <ul>
+                <li>Displaying dynamic data (e.g., user names, scores).</li>
+                <li>Passing Callbacks for user interactions.</li>
+                <li>Controllling styling or behavior.</li>
+              </ul>
+            </p>
+            <ProjectPractice
+              projectId="propsPractice"
+              prompt={`In this project, you'll practice how to build reusable React components using props.
+
+You're creating a simple welcome dashboard. You'll build two components:
+1. A Greeting component that takes a \`name\` prop and returns "Welcome back, NAME!".
+2. A Status component that takes a \`name\` and an \`online\` prop (boolean) and displays whether the user is online.
+Additionally, once you get a Status function that makes sense, optimize it! Use a termary expression to conditionally render online/offline status!
+
+Why? Learning how to pass and use props in components is a foundational React skill for building dynamic interfaces. This exercise will help you get comfortable with passing strings, booleans, and rendering based on prop values.
+
+Then, render 3 users with both components, each with different names and online statuses.
+`}
+
+              defaultCode={`function Greeting(props) {
+  // TODO: Return a welcome message using props
+}
+
+function Status(props) {
+  // TODO: Return a message like "NAME is online" or "NAME is offline"
+}
+
+function App() {
+  return (
+    <div>
+      {/* TODO: Render Greeting and Status for 3 users */}
+    </div>
+  );
+}`}
+
+              hint={[
+                "Use props.name in both Greeting and Status components.",
+                "Use a conditional inside Status: props.online ? 'online' : 'offline'.",
+                "You can reuse <Greeting name='...' /> and <Status name='...' online={true} />.",
+                "Make sure to render both components for each user!"
+              ]}
+
+              answer={`function Greeting(props) {
+  return <h2>Welcome back, {props.name}!</h2>;
+}
+
+function Status(props) {
+  return <p>{props.name} is {props.online ? "online" : "offline"}.</p>;
+}
+
+function App() {
+  return (
+    <div>
+      <Greeting name="Alice" />
+      <Status name="Alice" online={true} />
+
+      <Greeting name="Bob" />
+      <Status name="Bob" online={false} />
+
+      <Greeting name="Charlie" />
+      <Status name="Charlie" online={true} />
+    </div>
+  );
+}`}
+
+              onEvaluate={(transpileCode) => {
+                const messages = [];
+
+                // Check component declarations
+                if (!transpileCode.includes("function Greeting") || !transpileCode.includes("props.name")) {
+                  messages.push("❌ Your Greeting component must be defined and use props.name.");
+                }
+
+                if (!transpileCode.includes("function Status") || !transpileCode.includes("props.name") || !transpileCode.includes("props.online")) {
+                  messages.push("❌ Your Status component must be defined and use props.name and props.online.");
+                }
+
+                // Regex to detect <Greeting name="..." />
+                const greetingUsage = transpileCode.match(/React\.createElement\s*\(\s*Greeting\s*,\s*{[^}]*name\s*:\s*["'][^"']+["']/g);
+                const greetingCount = greetingUsage ? greetingUsage.length : 0;
+
+                // Regex to detect <Status name="..." online={...} />
+                const statusUsage = transpileCode.match(/React\.createElement\s*\(\s*Status\s*,\s*{[^}]*name\s*:\s*["'][^"']+["'][^}]*online\s*:\s*(true|false)/g);
+                const statusCount = statusUsage ? statusUsage.length : 0;
+
+                if (greetingCount < 3) {
+                  messages.push("❌ Render the Greeting component at least 3 times with different names.");
+                }
+
+                if (statusCount < 3) {
+                  messages.push("❌ Render the Status component at least 3 times with different users and online values.");
+                }
+
+                if (!transpileCode.includes("props.online ?")) {
+                  messages.push("❌ Use a ternary expression to conditionally render online/offline status.");
+                }
+
+                const passed = messages.length === 0;
+
+                const message = passed
+                  ? "✅ Great job! You've successfully created and used reusable components with props and conditional rendering!"
+                  : messages.join("\n");
+
+                if (passed && typeof markCompleted === "function") {
+                  markCompleted("propsPractice");
+                }
+
+                try {
+                  const componentFunc = new Function("React", `${transpileCode}; return App;`);
+                  const component = React.createElement(componentFunc(React));
+                  return { message, component };
+                } catch (err) {
+                  return { message: `Code Error: ${err.message}`, component: null };
+                }
+              }}
+
+              rootComponent="App"
+            >
+            </ProjectPractice>
+          </div>
         }
       </section>
 
@@ -707,7 +857,7 @@ You will start with a Profile function. Try combining them into a small interact
                   return { message: `❌ Code Error: ${err.message}`, component: null };
                 }
               }}
-
+              rootComponent="Profile"
             />
           </div>
         }
