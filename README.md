@@ -90,6 +90,12 @@ To run this project on your own computer:
   ```
 - If the port is already in use and produces this error:
   ```bash
+  error when starting dev server:
+  Error: Port 3000 is already in use
+    at Server.onError (file:///C:/Users/LucyKien/Desktop/react-sandbox/node_modules/vite/dist/node/chunks/dep-      827b23df.js:54873:28)
+    at Server.emit (node:events:524:28)
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
   ```
   Use this command to find the task port, and then kill it with the second commmand.
   ```bash
