@@ -1,24 +1,33 @@
-# Hello React!
+# Hello React! 👋
 
-This project contains a foundation for building and learning about React apps. The site includes two routes showing how navigation works in a single page app. We manage the page head and body using a standard React flow. The homepage features a click effect that demonstrates using state, and an animation you can try out yourself by following the steps in `TODO.md`. 💫
+This project contains a foundation for building and learning about React apps and their componenets. The site includes three routes showing how navigation works in a single page app. We manage the page head and body using a standard React flow. The homepage features a click effect that demonstrates using state, and an animation you can try out yourself! This is meant to be a Sandbox enviornemnt for React learners. 
 
 [React](https://reactjs.org/) is a popular UI library for building web apps. [Vite](https://vitejs.dev/) is a powerful tool for building javascript apps that bundles all of your code and shows immediate changes while you're editing.
 
-_While you're in the editor working, Glitch is running your `start` script in the background (`vite dev`). The site will be in dev mode and you'll see your changes happen ✨ immediately in the preview window. Once you close the editor window and your app goes to sleep, Glitch runs the `build` script and Vite builds your app for modern browsers._
-
-_Last updated: 14 August 2023_
+---
 
 ## Prerequisites
 
 You'll get best use out of this project if you're familiar with basic JavaScript. This project is a static site, which means that the server builds the site from the content of the `src` folder while you're developing it, then it's able to serve the pages super quickly when the user requests them.
 
-## What's in this project?
+---
+
+## What's in this project? 
 
 ← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
 
 ← `index.html`: This is the main page template React uses to build your site–it imports `index.jsx` to kick things off. When you're ready to share your site or add a custom domain, change SEO/meta settings in here.
 
 ← `src/`: This folder contains all the files React will use to build your site.
+
+---
+
+## Accessing the Live Website 🌍
+If deployed properly with GitHub pages:
+- Navigate to `https://kienlucy08.github.io/react-sandbox/`
+- Explore the Website for what is has to offer!!
+
+---
 
 ### Working in the `src/` folder 📁
 
@@ -44,11 +53,23 @@ React defines site components in [JSX](https://reactjs.org/docs/introducing-jsx.
 
 ### Pages 📃
 
-← `src/pages/`: These files include components that specify the content of the Home and About pages. Each one is defined as a function and referenced in `router.jsx`. The content is built into the page outline specified in `app.jsx`.
+← `src/pages/`: These files include components that specify the content of the Home About, and Learn pages. Each one is defined as a function and referenced in `router.jsx`. The content is built into the page outline specified in `app.jsx`.
 
 ← `src/pages/about.jsx`: The content of the About page, defined as a component function.
 
 ← `src/pages/home.jsx`: The content of the Home page, also defined as a component function. The page includes the animated effect on hover, and title change effect on click (which is also a handy demo of using state data in React).
+
+← `src/pages/learn.jsx`: The content of the Learn page, also defined as a component function. The page includes numerous tabs containing the basics of Learning React. This includes Syntax, JSX Deep Dive, Props, Effects, Event Handlers, CSS Modules, and Functions. All of these sections have their own interactions and there are 6 Practice Projects the user can completed to get the jist of React Basics.
+
+### Examples 🖊️
+
+← `src/exmaples/`: These files include components that specify the content of the CodeExample, CodePractice, EffectExample, JSXExample, and ProjectPractice pages. Each one is defined as a function and referenced in `learn.jsx` as examples for the user. The content is built into the page outline specified in `app.jsx`.
+
+← `src/examples/CodeExample.jsx`: The returns a `div` of any example code inputted with a standardized style. This file is referenced in `learn.jsx`. These are used to display code blocks in a pretty way.
+
+← `src/exmaples/CodePractice.jsx`: The returns a `div` with an intereactive code block with a standardized style. This file is referenced in `learn.jsx`. These are mostly used to allow users to practice syntax.
+
+← `src/exmaples/ProjectPractice.jsx`: The returns a `div` with an intereactive code block with a standardized style and live output. This file is referenced in `learn.jsx`. These are mostly used to allow users to practice their skills in a more robust project.
 
 ---
 
@@ -108,7 +129,7 @@ To run this project on your own computer:
 
 --- 
 
-## Useful NPM Commands
+## Useful NPM Commands 💼
 | Command           | Description                                                          |
 | ----------------- | -------------------------------------------------------------------- |
 | `npm run start`   | Starts the Vite dev server locally for testing                       |
@@ -118,7 +139,7 @@ To run this project on your own computer:
 
 ---
 
-## GitHub Pages Deployment
+## GitHub Pages Deployment 🌐
 This section is used to help understand and deploy the pages to a live website. 
 
 ###1. Install `gh-pages`
@@ -140,7 +161,7 @@ npm run deploy
 
 ---
 
-## Project Structure Overview
+## Project Structure Overview 📂
 | File/Folder       | Purpose                                                            |
 | ----------------- | ------------------------------------------------------------------ |
 | `index.html`      | The app's root HTML file, where Vite injects the app               |
@@ -154,15 +175,10 @@ npm run deploy
 | `src/seo.json`    | SEO settings used in the `<Helmet>` component for meta tags        |
 | `TODO.md`         | Optional exercises and project enhancements                        |
 
----
-
-## Accessing the Live Website 
-If deployed properly with GitHub pages:
-- Navigate to `https://kienlucy08.github.io/react-sandbox/`
 
 ---
 
-## Tips for Working with This Project
+## Tips for Working with This Project 🥴
 - Edit src/pages to update visible page content.
 - Modify router.jsx to add new routes.
 - Want to animate something? Customize wiggle.jsx.
