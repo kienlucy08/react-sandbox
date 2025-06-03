@@ -75,7 +75,7 @@ export default function LearnReactBasics() {
           <div>
             <strong>✅ {completed} of {total} projects completed.</strong>
             {completed === total && (
-              <span className="completion-message">🎉 You’ve completed the React Basics!</span>
+              <span className="completion-message">🎉 You've completed the React Basics!</span>
             )}
           </div>
           <button onClick={resetProgress}>🔄 Reset Progress</button>
