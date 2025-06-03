@@ -19,7 +19,7 @@ function CounterExample() {
   );
 }
 
-const allProjectIds = ["Event Handlers Practice", "Props Practice", "JSX Practice"]
+const allProjectIds = ["Event Handlers Practice", "Props Practice", "JSX Practice", "Effect Practice"]
 
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
@@ -31,6 +31,8 @@ export default function LearnReactBasics() {
   const [showModules, setShowModules] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
+  const [countEffect, setCountEffect] = useState(0);
+  const [countState, setCountState] = useState(0);
   const [showStatusBar, setShowStatusBar] = useState(true);
   const [completedProjects, setCompletedProjects] = useState(() => {
     const saved = localStorage.getItem("reactBasicsProgress");
@@ -515,14 +517,14 @@ function App() {
               projectId="JSX Practice"
               prompt="Create a WelcomeMessage Component that returns a div with a heading and a message using a JavaScript variable."
               defaultCode={`function WelcomeMessage(){
-  // Declare a name variable and message variable saying 'Welcome to JSX!' 
+  // Declare a 'NAME' variable and 'MESSAGE' variable saying 'Welcome to JSX!' 
   // Return a single JSX element that uses a heading 2 and a paragraph.
 }
   
 function App(){
   return (
     <div>
-      {/* Render WelcomeMessage here */}
+      {/* Render component here */}
     </div>
   );
 }`}
@@ -552,16 +554,16 @@ function App(){
               onEvaluate={(transpileCode) => {
                 const messages = [];
 
-                if (!/function\s+WelcomeMessage/.test(transpileCode)) {
+                if (!transpileCode.includes("React.createElement(WelcomeMessage")) {
                   messages.push("❌ Render the WelcomeMessage Component in App.");
                 }
                 if (!transpileCode.includes("name") && !transpileCode.includes("message")) {
                   messages.push("❌ Declare your JavaScript variables 'name' and 'message' (like const variable = 'cool')");
                 }
-                if (!transpileCode.includes("name") && !transpileCode.includes("h2")) {
+                if (!transpileCode.includes("name") && !transpileCode.includes("<h2")) {
                   messages.push("❌ Use the variable name inside your JSX element h2 using curly braces (e.g., <p>Woah {variable}</p>)")
                 }
-                if (!transpileCode.includes("message") && !transpileCode.includes("p")) {
+                if (!transpileCode.includes("message") && !transpileCode.includes("<p")) {
                   messages.push("❌ Use the variable message inside your JSX element p using curly braces (e.g., <p>Woah {variable}</p>)")
                 }
 
@@ -571,10 +573,6 @@ function App(){
                   ? "✅ Great! You've create a JSX-based component using variables."
                   : messages.join("\n");
 
-                if (passed && typeof markCompleted === "function") {
-                  markCompleted("JSX Practice");
-                }
-
                 try {
                   const componentFunc = new Function("React", `${transpileCode}; return App;`);
                   const component = React.createElement(componentFunc(React));
@@ -583,7 +581,8 @@ function App(){
                   return { message: `Code Error: ${err.message}`, component: null }
                 }
               }}
-              rootComponent={"App"}
+              rootComponent="App"
+              markCompleted={markCompleted}
             />
           </div>
         }
@@ -606,13 +605,15 @@ function App(){
               <strong>Why are they important?</strong><br />
               They allow componets to be reusable and dynamic. You can pass in different data each time you use a componet, keeping you UI flexible and maintainable.
             </p>
-            <pre><code>{`     function Welcome(props){
+            <CodeExample
+              code={`     function Welcome(props){
           return <h1>Hello, {props.name}!</h1>
       }
       
       function App() {
         return <Welcome name="Alice" />;
-      }`}</code></pre>
+      }`}
+            />
             <p>
               <strong>Common Props Use Cases:</strong>
               <ul>
@@ -719,9 +720,9 @@ function App() {
                   ? "✅ Great job! You've successfully created and used reusable components with props and conditional rendering!"
                   : messages.join("\n");
 
-                if (passed && typeof markCompleted === "function") {
-                  markCompleted("Props Practice");
-                }
+                // if (passed && typeof markCompleted === "function") {
+                //   markCompleted("Props Practice");
+                // }
 
                 try {
                   const componentFunc = new Function("React", `${transpileCode}; return App;`);
@@ -733,8 +734,9 @@ function App() {
               }}
 
               rootComponent="App"
-            >
-            </ProjectPractice>
+              markCompleted={markCompleted}
+            />
+
           </div>
         }
       </section>
@@ -747,7 +749,166 @@ function App() {
           {showUseEffect ? "▼" : "▶"} 4. State, useEffect and useState
         </h2>
         {showUseEffect &&
-          <EffectExample />
+          <div>
+            <p>
+              <strong>What are States, UseEffects and UseStates?</strong><br />
+              In React, <code>state</code> is data that determines how your component renders and behaves. You manage this data with hooks like <code>useState</code> and <code>useEffect</code>.
+            </p>
+            <p>
+              <strong>Why are they important?</strong><br />
+              State lets your components track and respond to user input and dynamic behavior. <code>useState</code> stores and updates values. <code>useEffect</code> lets you run code when something changes-like syncing with external systems, setting up timers, or fetching data.
+            </p>
+            <p><strong>useEffect Example</strong><br />
+              This example demonstrates the <code>useEffect</code> hook in React, which allows you to run side effects in function components. Side effects can include things like updating the document title, fetching data from an API, subscribing to a service, or manually manipulating the DOM.
+            </p>
+            <p>You've clicked the button {countEffect} times.</p>
+            <button onClick={() => setCountEffect(countEffect + 1)}>Click me</button>
+            <CodeExample
+              code={`const [count, setCount] = useState(0);
+
+useEffect(() => {
+    document.title = \`Clicked \${count} times\`;
+}, [count]);
+
+return (
+  <div>
+    <p>You've clicked the button {count} times.</p>
+    <button onClick={() => setCount(count + 1)}>Click me</button>
+)`}
+            />
+            <p><strong>useState Example</strong><br />
+              This example demonstrates how to use the <code>useState</code> hook in React to manage a componenet's local state.
+            </p>
+            <p>You've clicked the button {countState} times.</p>
+            <button onClick={() => setCountState(countState + 1)}>Click me</button>
+            <CodeExample
+              code={`import { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0); // Declare state variable
+
+  return (
+    <div>
+      <p>Current count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+};`}
+            />
+            <p><strong>What is State in React?</strong><br />
+              In React, <code>state</code> is a built-in object that stores property values that belong to a component. When the state changes, the component re-renders to reflect those changes.</p>
+            <CodeExample
+              code={`// Example without useState (not functional)
+
+let count = 0;
+
+function handleClick() {
+  count++;
+  console.log(count); // Updates, but won't re-render UI
+}
+
+// This won't update UI on screen
+// React won't know 'count' changed unless we use state!
+`}
+            />
+            <ProjectPractice
+              projectId="Effect Practice"
+              prompt={`You will now build a simple click tracker app that uses both useState and useEffect.
+
+This project helps reinforce your understanding of:
+Managing state in a React component, using useEffect to run side effects and updating the page based on state\n
+
+📌 Requirements:
+1. Track how many times a button is clicked using useState
+2. Update the document title every time the count changes using useEffect
+3. Display the current count on the screen
+4. Add a Reset button to clear the count`}
+              defaultCode={`function ClickTracker() {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    // TODO: Update document title with current count
+  }, [count]);
+
+  const handleClick = () => {
+    // TODO: Increase the count by 1
+  };
+
+  const handleReset = () => {
+    // TODO: Reset count to 0
+  };
+
+  return (
+    <div>
+      <h2>You've clicked {count} times.</h2>
+      <button onClick={handleClick}>Click Me</button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  );
+}`}
+              hint={[
+                "Use useState to store the count value.",
+                "In useEffect, set document.title to 'Clicked {count} times'",
+                "The handleClick function should increase the count using setCount(count + 1)",
+                "The handleReset function should set count back to 0"
+              ]}
+              answer={`function ClickTracker() {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    document.title = \`Clicked \${count} times\`;
+  }, [count]);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  const handleReset = () => {
+    setCount(0);
+  };
+
+  return (
+    <div>
+      <h2>You've clicked {count} times.</h2>
+      <button onClick={handleClick}>Click Me</button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  );
+}`}
+              onEvaluate={(transpiledCode) => {
+                const messages = [];
+
+                if (!transpiledCode.includes("document.title")) {
+                  messages.push("❌ Missing useEffect to update document title. You should set document.title in useEffect.");
+                }
+                if (!transpiledCode.includes("setCount(count + 1)") && !transpiledCode.includes("setCount(prev => prev + 1)")) {
+                  messages.push("❌ Increment the count using setCount(count + 1).");
+                }
+                if (!transpiledCode.includes("setCount(0)")) {
+                  messages.push("❌ Reset the count to 0 with setCount(0).");
+                }
+
+                const passed = messages.length === 0;
+                const message = passed
+                  ? "✅ Great job! You've successfully implemented useState and useEffect."
+                  : messages.join("\n");
+
+                // if (passed && typeof markCompleted === "function") {
+                //   markCompleted("State + useEffect Practice"); 
+                // }
+
+                try {
+                  const componentFunc = new Function("React", `${transpiledCode}; return ClickTracker;`);
+                  const component = React.createElement(componentFunc(React));
+                  return { message, component };
+                } catch (err) {
+                  return { message: `❌ Code Error: ${err.message}`, component: null };
+                }
+              }}
+              rootComponent="ClickTracker"
+              markCompleted={markCompleted}
+            />
+          </div>
         }
       </section>
 
@@ -769,13 +930,13 @@ function App() {
               React uses a synthetic event system (a wrapper around the browser's native events) for consistency across all browsers. You assign event handlers directly to JSX elements using camelCase props like <code>onClick</code>, <code>onChange</code>, <code>onSubmit</code>, etc.
             </p>
 
-            <pre><code>{`function Example() {
+            <CodeExample code={`function Example() {
       const handleClick = () => {
         alert("Button Clicked!");
       };
 
       return <button onClick{handleClick}>Click me</button>;
- }`}</code></pre>
+ }`} />
 
             <p>
               <strong>Common Events in React:</strong>
@@ -983,12 +1144,6 @@ You will start with a Profile function. Try combining them into a small interact
                   ? "✅ Awesome! You’ve correctly implemented all required event handlers and interactions."
                   : messages.join("\n");
 
-
-
-                if (passed && typeof markCompleted === "function") {
-                  markCompleted("Event Handlers Practice"); // ✅ mark project as completed
-                }
-
                 try {
                   // Use Babel-transpiled code (should define and return a component like Profile)
                   const componentFunc = new Function("React", `${transpiledCode}; return Profile;`);
@@ -999,6 +1154,7 @@ You will start with a Profile function. Try combining them into a small interact
                 }
               }}
               rootComponent="Profile"
+              markCompleted={markCompleted}
             />
           </div>
         }
@@ -1011,8 +1167,200 @@ You will start with a Profile function. Try combining them into a small interact
         >
           {showModules ? "▼" : "▶"} 6. CSS Modules
         </h2>
-        {showModules &&
-          <p>yes</p>
+        {showModules && (
+          <div>
+            <p>
+              <strong>What are CSS Modules?</strong><br />
+              CSS Modules are a way to write CSS such that class names and animations are scoped locally by default. This means styles are applied only to the component they belong to, avoiding conflicts or unintended side effects in large projects.
+            </p>
+            <p>
+              <strong>Why are CSS Modules Important?</strong><br />
+              <ul>
+                <li><strong>Scoped Styles:</strong> No global namespace pollution; styles are isolated to components.</li>
+                <li><strong>Maintainability:</strong> Easier to maintain and understand styles in big apps.</li>
+                <li><strong>Performance:</strong> Styles are loaded only when their components are used.</li>
+                <li><strong>Tooling Integration:</strong> Works well with modern build tools like Webpack and Vite.</li>
+              </ul>
+            </p>
+            <p>
+              <strong>Example Usage</strong><br />
+              Here's a basic example of how to use CSS Modules in a React component. As you can see, you can set a button object in your .css file and reuse it or if you need to manually set the style of an object you can do so right inside the element.
+            </p>
+            <CodeExample
+              code={`
+/* Button.module.css */
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Button.jsx */
+import React from "react";
+import styles from "./Button.module.css";
+
+export default function Button() {
+  return (
+    <div>
+      // Use of class Button.module.css
+      <button className={styles.button}>Click Me</button>;
+      // Manually setting the style of the object
+      <button style={{background: "#007bff", color: "white", padding: "10px 20px", 
+                      borderRadius: "4px", cursor: "pointer"}}>Click Me</button>
+}`}
+            />
+            <p>These are both the same button but produced through different ways.</p>
+            <button style={{
+              background: "#007bff", color: "white", padding: "10px 20px",
+              borderRadius: "4px", cursor: "pointer"
+            }}>Click Me</button>
+            <button style={{
+              background: "#007bff", color: "white", padding: "10px 20px",
+              borderRadius: "4px", cursor: "pointer"
+            }}>Click Me</button>
+            <ProjectPractice
+              projectId="CSS Module Practice"
+              prompt={`Now that you've learned how CSS Modules work, it's time to put them into practice!
+
+Create a simple component that uses CSS Modules to style a button, a heading, and a container. Focus on applying scoped styles, using hover effects, and making sure class names are not global.
+
+Try to: Create a container with padding and a border. Add a heading styled with a specific color and font size. Style a button with hover effects using the ":hover" pseudo-class.
+
+Your styles should be written in a separate CSS Module file (e.g., MyComponent.module.css), imported, and used via className={styles.className}.
+`}
+              defaultCode={`// Simulated CSS Modules: In a real project, create a file called MyComponent.module.css
+// and add styles like the examples shown in comments below.
+
+const styles = {
+  container: "container",  // TODO: Add padding, border, and center alignment in CSS
+  heading: "heading",      // TODO: Style with large font size and custom color
+  button: "button"         // TODO: Add background color, padding, and hover styles
+};
+
+function MyComponent() {
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Hello CSS Modules</h1>
+      <button className={styles.button}>Click Me</button>
+    </div>
+  );
+}
+
+/*
+📄 MyComponent.module.css (for reference only — do not paste in JS file):
+
+.container {
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 2rem;
+  color: teal;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+*/
+`}
+              hint={[
+                "Simulate your CSS module with a 'styles' object mapping classNames.",
+                "Use className={styles.className} to apply styles in JSX.",
+                "Imagine your CSS module includes .container, .heading, and .button classes.",
+                "Include hover styles in your simulated CSS description."
+              ]
+              }
+              answer={`// MyComponent.jsx
+import React from "react";
+import styles from "./MyComponent.module.css";
+
+function MyComponent() {
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Hello CSS Modules</h1>
+      <button className={styles.button}>Click Me</button>
+    </div>
+  );
+}
+
+// MyComponent.module.css
+.container {
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 2rem;
+  color: teal;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+`}
+              onEvaluate={(transpileCode) => {
+                const messages = [];
+
+                if (!transpileCode.includes("import styles from") || !transpileCode.includes('".module.css"')) {
+                  messages.push("❌ You must import the CSS Module using `import styles from './MyComponent.module.css'`.");
+                }
+
+                if (!transpileCode.includes("className={styles.container}")) {
+                  messages.push("❌ Apply the `styles.container` class to your main wrapper.");
+                }
+
+                if (!transpileCode.includes("className={styles.heading}")) {
+                  messages.push("❌ Your heading should use `styles.heading` for scoped styling.");
+                }
+
+                if (!transpileCode.includes("className={styles.button}")) {
+                  messages.push("❌ Apply the `styles.button` class to your button.");
+                }
+
+                const passed = messages.length === 0;
+
+                const message = passed
+                  ? "✅ Excellent! You've correctly applied scoped styles using CSS Modules."
+                  : messages.join("\n");
+
+                try {
+                  const componentFunc = new Function("React", `${transpileCode}; return MyComponent;`);
+                  const component = React.createElement(componentFunc(React));
+                  return { message, component };
+                } catch (err) {
+                  return { message: `❌ Code Error: ${err.message}`, component: null };
+                }
+              }}
+              rootComponent="MyComponent"
+              markCompleted={markCompleted}
+            />
+          </div>
+        )
         }
       </section>
 

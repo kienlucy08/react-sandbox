@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as Babel from "@babel/standalone";
 import React from "react";
 
-export default function ProjectPractice({projectId, prompt, extraContent, defaultCode, hint, answer, onEvaluate, rootComponent}) {
+export default function ProjectPractice({ projectId, prompt, extraContent, defaultCode, hint, answer, onEvaluate, rootComponent, markCompleted }) {
     const [code, setCode] = useState(defaultCode);
     const [renderedComponent, setRenderedComponent] = useState(null);
     const [outputMessage, setOutputMessage] = useState("");
@@ -10,6 +10,9 @@ export default function ProjectPractice({projectId, prompt, extraContent, defaul
     const [hasAttempted, setHasAttempted] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+
 
     const transpileCode = () => {
         try {
@@ -39,6 +42,10 @@ export default function ProjectPractice({projectId, prompt, extraContent, defaul
 
             if (typeof result === "object" && result.message !== undefined) {
                 setOutputMessage(result.message);
+
+                if (result.message.includes("✅") || result.passed) {
+                    setCanSubmit(true);
+                }
 
                 try {
                     // Dynamically create component
@@ -76,22 +83,6 @@ export default function ProjectPractice({projectId, prompt, extraContent, defaul
         }
     };
 
-    // const handlePrettify = () => {
-    //     try {
-    //         const formatted = window.prettier.format(code, {
-    //             parser: "babel",
-    //             plugins: window.prettierPlugins,
-    //             semi: true,
-    //             singleQuote: true,
-    //             jsxSingleQuote: false,
-    //         });
-
-    //         setCode(formatted);
-    //     } catch (err) {
-    //         setOutput("⚠️ Could not prettify code: " + err.message);
-    //     }
-    // };
-
     return (
         <div className="code-practice">
             <p><strong>This a project '{projectId}'!</strong></p>
@@ -106,6 +97,20 @@ export default function ProjectPractice({projectId, prompt, extraContent, defaul
             />
             <div style={{ display: "flex", gap: "10px", marginTop: "0.5rem" }}>
                 <button onClick={handleRun}>Run</button>
+                {canSubmit && !submitted && (
+                    <button
+                        onClick={() => {
+                            if (typeof markCompleted === "function") {
+                                markCompleted(projectId);
+                            }
+                            setSubmitted(true);
+                            setOutputMessage("🎉 Project submitted and marked complete!");
+                        }}
+                        style={{ backgroundColor: "#28a745", color: "white" }}
+                    >
+                        Submit
+                    </button>
+                )}
                 {hasAttempted && (
                     <>
                         <button onClick={() => setShowHint(!showHint)}>
