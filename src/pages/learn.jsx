@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import JSXExample from "../examples/JSXExample";
-import CodePractice from "../examples/CodeExample"
+import CodePractice from "../examples/CodePractice"
 import EffectExample from "../examples/EffectExample";
-import ProjectPractice from "../examples/ProjectExample";
+import ProjectPractice from "../examples/ProjectPractice";
+import CodeExample from "../examples/CodeExample"
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 
@@ -18,7 +19,7 @@ function CounterExample() {
   );
 }
 
-const allProjectIds = ["eventHandlers", "propPractice"]
+const allProjectIds = ["Event Handlers Practice", "Props Practice", "JSX Practice"]
 
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
@@ -75,7 +76,11 @@ export default function LearnReactBasics() {
           <div>
             <strong>✅ {completed} of {total} projects completed.</strong>
             {completed === total && (
-              <span className="completion-message">🎉 You've completed the React Basics!</span>
+              <div>
+                <br />
+                <span className="completion-message">🎉 You've completed the React Basics!</span>
+              </div>
+
             )}
           </div>
           <button onClick={resetProgress}>🔄 Reset Progress</button>
@@ -87,7 +92,6 @@ export default function LearnReactBasics() {
         <p>
           Welcome to your React learning journey! React is a powerful JavaScript library for building user interfaces, particularly for single-page applications where you need fast, interactive experiences. In React, you build UIs using components — reusable building blocks that manage their own logic and rendering.
         </p>
-        <br />
 
         <div className="tips-box">
           <h3>Tips for Learning React</h3>
@@ -101,8 +105,6 @@ export default function LearnReactBasics() {
         </div>
       </section>
 
-      {/* Upcoming Sections */}
-      {/* Collapsable sections!!! */}
       <section className="concept-section">
         <h2
           onClick={() => setShowSyntax((prev) => !prev)}
@@ -122,11 +124,13 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like putting groceries in one bag — many items, one container (a single parent div).</em></p>
-              <pre>{`return(  
+              <CodeExample
+                code={`return(  
     <div>
       <h1>Hello!</h1>
     </div>
-  );`}</pre>
+  );`}
+              />
               <CodePractice
                 prompt="Write a component that returns a single <div> with two paragraphs."
                 defaultCode={`return(\n <div> \n  *Enter Code here*\n    \n     \n </div>\n)`}
@@ -154,9 +158,10 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Props are like labeled packages you pass to a friend. They can read them but shouldn't change them.</em></p>
-              <pre>{`<MyButton text="Click me" onClick={handleClick} />`}</pre>
+              <CodeExample
+                code={`<MyButton text="Click me" onClick={handleClick} />`}
+              />
               <button onClick={handleClick}>Click me!</button>
-
               <CodePractice
                 prompt="Write a button component that takes a 'label' prop and displays it inside."
                 defaultCode={`function LabeledButton({ label }) {
@@ -185,12 +190,16 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like a whiteboard where you can update the count — and React will re-render each time you erase and write a new number.</em></p>
-              <pre>{`/*Example interger count*/ \n const [count, setCount] = useState(0);`}</pre>
-              <pre>{`/*Example string name*/ \n const [name, setName] = useState("Lily");`}</pre>
-              <pre>{`/*Example boolean*/ \n const [isVisible, setIsVisible] = useState(true);`}</pre>
-              <pre>{`/*Example object*/ \n const [user, setUser] = useState({name: "", age: 0});`}</pre>
-              <pre>{`/*Example array*/ \n const [items, setItems] = useState([]);`}</pre>
-              <pre>{`/*Example function*/ \n const [value, setValue] = useState(() => computeExpensiveValue());`}</pre>
+              <CodeExample
+                code={`/*Example interger count*/ \n const [count, setCount] = useState(0); \n
+/*Example string name*/ \n const [name, setName] = useState("Lily"); \n
+/*Example boolean*/ \n const [isVisible, setIsVisible] = useState(true); \n
+/*Example boolean*/ \n const [isVisible, setIsVisible] = useState(true); \n
+/*Example object*/ \n const [user, setUser] = useState({name: "", age: 0}); \n
+/*Example array*/ \n const [items, setItems] = useState([]); \n
+/*Example function*/ \n const [value, setValue] = useState(() => computeExpensiveValue());`}
+              />
+
               <CounterExample />
               <CodePractice
                 prompt="Initialize state for a name variable using useState. Set the inital state to 'Ren' "
@@ -212,9 +221,13 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like assigning a task to a robot: "When button is pressed, say 'Hi!'".</em></p>
-              <pre>{`/*Inline example*/ \n <button onClick={() => alert('clicked!')}>Click me!</button>`}</pre>
+              <CodeExample
+                code={`/*Inline example*/ \n <button onClick={() => alert('clicked!')}>Click me!</button>`}
+              />
               <button onClick={() => alert('clicked!')}>Click me!</button>
-              <pre>{`/*Referenced example*/ \n <button onClick={handleClick}>Click me!</button>`}</pre>
+              <CodeExample
+                code={`/*Referenced example*/ \n <button onClick={handleClick}>Click me!</button>`}
+              />
               <button onClick={handleClick}>Click me!</button>
               <CodePractice
                 prompt="Write a button that shows an alert when clicked."
@@ -236,12 +249,13 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like clear plastic dividers - structure  without extra walls.</em></p>
-              <pre>{`return (
+              <CodeExample
+                code={`return (
     <>
       <Header />
       <Content />
     </>
-  );`}</pre>
+  );`} />
               <CodePractice
                 prompt="Change this code to return a fragment instead of a div! This just required removing the <div> and replacing it with a fragment"
                 defaultCode={`function Demo() {
@@ -276,7 +290,9 @@ export default function LearnReactBasics() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like checking if a door is unlocked before opening it.</em></p>
-              <pre>{`const name = user?.profile?.name;`}</pre>
+              <CodeExample
+                code={`const name = user?.profile?.name;`}
+              />
               <CodePractice
                 prompt="Safely access the email property inside user.account."
                 defaultCode={`const user = {
@@ -304,8 +320,10 @@ const email = *your code here*`}
               <br />
               <strong>Analogy:</strong>
               <p><em>Like wearing a tailored outfit - no style clashes with others.</em></p>
-              <pre>{`import styles from './Button.module.css';
-  return <button className={styles.primary}>Go</button>;`}</pre>
+              <CodeExample
+                code={`import styles from './Button.module.css';
+  return <button className={styles.primary}>Go</button>;`}
+              />
               <CodePractice
                 prompt="Apply a locally scoped CSS class using CSS Modules."
                 defaultCode={`// Button.module.css
@@ -337,9 +355,11 @@ export default function Button() {
               <br />
               <strong>Analogy:</strong>
               <p><em>Class components are like manual cars; functional ones are like automatic EVs - newer and smoother</em></p>
-              <pre>{`function Welcome({ name }) {
+              <CodeExample
+                code={`function Welcome({ name }) {
     return <h1>Hello, {name}</h1>;
-  }`}</pre>
+  }`}
+              />
               <CodePractice
                 prompt="Convert this class component to a functional component."
                 defaultCode={`// Convert this:
@@ -372,9 +392,11 @@ function Welcome({ name }) {
               <br />
               <strong>Analogy:</strong>
               <p><em>Like naming each item in a checklist so React knows exactly which one to update.</em></p>
-              <pre>{`items.map(item => (
+              <CodeExample
+                code={`items.map(item => (
     <li key={item.id}>{item.name}</li>
-  ));`}</pre>
+  ));`}
+              />
               <ul>
                 {['Apple', 'Banana', 'Cherry'].map((item, i) => (
                   <li key={i}>{item}</li>
@@ -444,7 +466,126 @@ export function MyComponent() {
           {showJSX ? "▼" : "▶"}  2. JSX Deep Dive
         </h2>
         {showJSX &&
-          <JSXExample />
+          <div>
+            <p>
+              <strong>What is JSX?</strong><br />
+              JSX stands for <strong>JavaScript XML</strong>. It's a syntax extention for JavaScript that looks similar to HTML.
+              JSX makes it easier to write and understand the structure of your UI components by allowing you to describe what the UI should look like in a more familar HTML-like syntax.
+            </p>
+            <p>
+              <strong>Why is JSX important?</strong>
+              <ul>
+                <li>Improves readability of your component code.</li>
+                <li>Lets you write UI code close to your logic (in JavaScript)</li>
+                <li>Helps avoid complex DOM manipulation code by using declarative syntax.</li>
+              </ul>
+            </p>
+            <p>
+              <strong>JSX Rules and Notes</strong>
+              <ul>
+                <li>
+                  Always return a <strong>single parent</strong> (wraped with <code>&lt;div /&gt;</code> if needed).
+                </li>
+                <li>Use <code>className</code> instead of <code>class</code> which is used in HTML.</li>
+                <li>Use <code>{ }</code> to insert JavaScript expressions or variables.</li>
+                <li>Self-close tags like <code>&lt;br /&gt;</code>, <code>&lt;img /&gt;</code>.</li>
+              </ul>
+            </p>
+            <p>
+              <strong>Example:</strong><br />
+              Below is an example that displays returning a single parent, the use of className, an inserted variable 'name', as well as self closing tags!
+            </p>
+            <CodeExample
+              code={`export default function Hello(props) {
+  const name = props.name;
+  return (
+    <div className="greeting">
+      <h2>Hello, {name}!</h2>
+      <p>This is JSX in action.</p>
+    </div>
+  );
+}
+
+function App() {
+  return <Hello name="Lucy" className="greeting" />;
+}
+`}
+            />
+            <ProjectPractice
+              projectId="JSX Practice"
+              prompt="Create a WelcomeMessage Component that returns a div with a heading and a message using a JavaScript variable."
+              defaultCode={`function WelcomeMessage(){
+  // Declare a name variable and message variable saying 'Welcome to JSX!' 
+  // Return a single JSX element that uses a heading 2 and a paragraph.
+}
+  
+function App(){
+  return (
+    <div>
+      {/* Render WelcomeMessage here */}
+    </div>
+  );
+}`}
+              hint={[
+                "Declare a variables (e.g., const message = 'Hello';).",
+                "Use JSX syntax like <h2>Hello, {name}</h2>",
+                "Wrap elements in a single parent like a <div> or an empty <>"
+              ]}
+              answer={`function WelcomeMessage(){
+  const message = "Welcome to JSX";
+  const name = "Lucy";
+  return (
+    <div>
+      <h2>Hello, {name}</h2>
+      <p>{message}</p>
+    </div>
+  ); 
+}
+  
+function App(){
+  return (
+    <div>
+      <WelcomeMessage />
+    </div>
+  );
+}`}
+              onEvaluate={(transpileCode) => {
+                const messages = [];
+
+                if (!/function\s+WelcomeMessage/.test(transpileCode)) {
+                  messages.push("❌ Render the WelcomeMessage Component in App.");
+                }
+                if (!transpileCode.includes("name") && !transpileCode.includes("message")) {
+                  messages.push("❌ Declare your JavaScript variables 'name' and 'message' (like const variable = 'cool')");
+                }
+                if (!transpileCode.includes("name") && !transpileCode.includes("h2")) {
+                  messages.push("❌ Use the variable name inside your JSX element h2 using curly braces (e.g., <p>Woah {variable}</p>)")
+                }
+                if (!transpileCode.includes("message") && !transpileCode.includes("p")) {
+                  messages.push("❌ Use the variable message inside your JSX element p using curly braces (e.g., <p>Woah {variable}</p>)")
+                }
+
+                const passed = messages.length === 0;
+
+                const message = passed
+                  ? "✅ Great! You've create a JSX-based component using variables."
+                  : messages.join("\n");
+
+                if (passed && typeof markCompleted === "function") {
+                  markCompleted("JSX Practice");
+                }
+
+                try {
+                  const componentFunc = new Function("React", `${transpileCode}; return App;`);
+                  const component = React.createElement(componentFunc(React));
+                  return { message, component };
+                } catch (err) {
+                  return { message: `Code Error: ${err.message}`, component: null }
+                }
+              }}
+              rootComponent={"App"}
+            />
+          </div>
         }
       </section>
 
@@ -481,7 +622,7 @@ export function MyComponent() {
               </ul>
             </p>
             <ProjectPractice
-              projectId="propsPractice"
+              projectId="Props Practice"
               prompt={`In this project, you'll practice how to build reusable React components using props.
 
 You're creating a simple welcome dashboard. You'll build two components:
@@ -579,7 +720,7 @@ function App() {
                   : messages.join("\n");
 
                 if (passed && typeof markCompleted === "function") {
-                  markCompleted("propsPractice");
+                  markCompleted("Props Practice");
                 }
 
                 try {
@@ -657,7 +798,7 @@ function App() {
               <li>To prevent default behavior (like form submission refreshing the page), call <code>event.preventDefault()</code>.</li>
             </ul>
             <ProjectPractice
-              projectId="eventHandlers"
+              projectId="Event Handlers Practice"
               prompt={`You will now make a project that incorporates all of these Event Handlers. It will help solidify your knowledge of how they work within React.
 
 You will start with a Profile function. Try combining them into a small interactive profile form. It should respond to input, show hover behavior, handle form submission, and react to key presses. You will need to update the profile's name live as the user types in the input. At the end of this project, users should be able to comfortably write and use:`}
@@ -845,7 +986,7 @@ You will start with a Profile function. Try combining them into a small interact
 
 
                 if (passed && typeof markCompleted === "function") {
-                  markCompleted("eventHandlers"); // ✅ mark project as completed
+                  markCompleted("Event Handlers Practice"); // ✅ mark project as completed
                 }
 
                 try {
