@@ -56,10 +56,108 @@ React defines site components in [JSX](https://reactjs.org/docs/introducing-jsx.
 
 To run this project on your own computer:
 
-### 1. **Install Node.js**
+### 1. **Install Node.js and NPM**
 - Download and install the latest LTS version of Node.js from [https://nodejs.org](https://nodejs.org).
 - Verify installation:
   ```bash
   node -v
   npm -v
+  ```
+- If
 
+### 2. **Clone the Repository**
+- Navigate to a powershell and the proper directory and copy this command
+  ```bash
+  git clone https://github.com/kienlucy08/react-sandbox.git
+  ```
+- Navigate to the new project folder located locally.
+  ```bash
+  cd your-local-folder
+  ```
+
+### 3. **Verify and Install NPM**
+- Run this command to install NPM in this folder
+  ```bash
+  npm install
+  ```
+  ```bash
+  npm -v
+  ```
+### 4. Start the Development Server**
+- Run this command to start the local server used for local changes.
+  ```bash
+  npm run start
+  ```
+- If the port is already in use and produces this error:
+  ```bash
+  ```
+  Use this command to find the task port, and then kill it with the second commmand.
+  ```bash
+  netstat -ano | findstr :3000
+  ```
+  ```bash
+  taskkill /PID <PID_SHOWN_FROM_ABOVE> /F
+  ```
+- You should then be able to run `npm run start` and a local host link will be provided.
+
+--- 
+
+## Useful NPM Commands
+| Command           | Description                                                          |
+| ----------------- | -------------------------------------------------------------------- |
+| `npm run start`   | Starts the Vite dev server locally for testing                       |
+| `npm run build`   | Builds the project for production (output in `dist/`)                |
+| `npm run preview` | Preview the production build locally                                 |
+| `npm run deploy`  | Deploys your production-ready build to GitHub Pages (via `gh-pages`) |
+
+---
+
+## GitHub Pages Deployment
+This section is used to help understand and deploy the pages to a live website. 
+
+###1. Install `gh-pages`
+```bash
+npm install gh-pages --save-dev
+```
+###2. Update `package.json`
+```bash
+"homepage": "https://your-username.github.io/your-repo-name",
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+}
+```
+###3. Deploy
+```bash
+npm run deploy
+```
+
+---
+
+## Project Structure Overview
+| File/Folder       | Purpose                                                            |
+| ----------------- | ------------------------------------------------------------------ |
+| `index.html`      | The app's root HTML file, where Vite injects the app               |
+| `vite.config.js`  | Configuration for Vite including port, plugins, and build settings |
+| `src/index.jsx`   | Entry point that mounts the React app                              |
+| `src/app.jsx`     | Root component with routing and layout logic                       |
+| `src/components/` | Reusable UI and logic building blocks (Router, SEO, etc.)          |
+| `src/pages/`      | Home and About pages – these match the routes in the router        |
+| `src/styles/`     | Custom CSS styles                                                  |
+| `src/hooks/`      | Custom hooks like animation and accessibility                      |
+| `src/seo.json`    | SEO settings used in the `<Helmet>` component for meta tags        |
+| `TODO.md`         | Optional exercises and project enhancements                        |
+
+---
+
+## Accessing the Live Website 
+If deployed properly with GitHub pages:
+- Navigate to `https://kienlucy08.github.io/react-sandbox/`
+
+---
+
+## Tips for Working with This Project
+- Edit src/pages to update visible page content.
+- Modify router.jsx to add new routes.
+- Want to animate something? Customize wiggle.jsx.
+- Use npm run preview to test production behavior locally.
