@@ -24,7 +24,7 @@ You'll get best use out of this project if you're familiar with basic JavaScript
 
 React defines site components in [JSX](https://reactjs.org/docs/introducing-jsx.html), an extended version of JavaScript, so you'll see lots of `.jsx` files in the project.
 
-← `src/index.jsx`: This is the root of your React app. The index script is imported in the site home template `index.html`. If you add libraries like [chakra-ui](https://chakra-ui.com) or [redux](https://react-redux.js.org), you'll insert their providers here. The `<HelmetProvider`> is an example of a provider you'd use.
+← `src/index.jsx`: This is the root of your React app. The index script is imported in the site home template `index.html`. If you add libraries like [chakra-ui](https://chakra-ui.com) or [redux](https://react-redux.js.org), you'll insert their providers here. The `<HelmetProvider>` is an example of a provider you'd use.
 
 ← `src/app.jsx`: The base for defining your React app, this script imports the components that make up the site content. The `index.jsx` file imports the App script. The router (from [wouter](https://github.com/molefrog/wouter) 🐰) is also imported here.
 
@@ -48,20 +48,18 @@ React defines site components in [JSX](https://reactjs.org/docs/introducing-jsx.
 
 ← `src/pages/about.jsx`: The content of the About page, defined as a component function.
 
-← `src/pages/home.jsx` The content of the Home page, also defined as a component function. The page includes the animated effect on hover, and title change effect on click (which is also a handy demo of using state data in React).
+← `src/pages/home.jsx`: The content of the Home page, also defined as a component function. The page includes the animated effect on hover, and title change effect on click (which is also a handy demo of using state data in React).
 
-## Try this next 🏗️
+---
 
-Take a look in `TODO.md` for next steps you can try out in your new site!
+## Getting Started Locally 🚀
 
-**_Want a minimal version of this project to build your own React app? Check out [Blank React](https://glitch.com/edit/#!/remix/glitch-blank-react)!_**
+To run this project on your own computer:
 
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
+### 1. **Install Node.js**
+- Download and install the latest LTS version of Node.js from [https://nodejs.org](https://nodejs.org).
+- Verify installation:
+  ```bash
+  node -v
+  npm -v
 
-## You built this with Glitch!
-
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
-
-- Want more details about React on Glitch? We've got a [Help Center article](https://help.glitch.com/hc/en-us/articles/16287545215501-React-Projects) for you.
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
