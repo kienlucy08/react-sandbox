@@ -22,22 +22,6 @@ export default function CodePractice({ prompt, defaultCode, hint, answer, onEval
         setHasAttempted(true);
     };
 
-    // const handlePrettify = () => {
-    //     try {
-    //         const formatted = window.prettier.format(code, {
-    //             parser: "babel",
-    //             plugins: window.prettierPlugins,
-    //             semi: true,
-    //             singleQuote: true,
-    //             jsxSingleQuote: false,
-    //         });
-
-    //         setCode(formatted);
-    //     } catch (err) {
-    //         setOutput("⚠️ Could not prettify code: " + err.message);
-    //     }
-    // };
-
     return (
         <div className="code-practice">
             <p>{prompt}</p>
@@ -86,12 +70,6 @@ export default function CodePractice({ prompt, defaultCode, hint, answer, onEval
                     {answer}
                 </pre>
             )}
-
-            {/* {error && <pre style={{color:"red", marginTop: "1rem"}}>{error}</pre>}
-            <div style={{marginTop:"1rem", border:"1px dashed #ccc", padding:"1rem"}}>
-                <strong>Live Output:</strong>
-                <div>{output}</div>
-            </div> */}
         </div>
     );
 }

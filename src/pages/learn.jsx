@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import JSXExample from "../examples/JSXExample";
 import CodePractice from "../examples/CodePractice"
-import EffectExample from "../examples/EffectExample";
 import ProjectPractice from "../examples/ProjectPractice";
 import CodeExample from "../examples/CodeExample"
 import Confetti from 'react-confetti';
