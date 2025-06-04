@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import CodePractice from "../examples/CodePractice"
 import ProjectPractice from "../examples/ProjectPractice";
 import CodeExample from "../examples/CodeExample"
+import CSSProject from "../examples/CSSProject";
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
-
 
 function CounterExample() {
   const [count, setCount] = React.useState(0);
@@ -17,7 +17,7 @@ function CounterExample() {
   );
 }
 
-const allProjectIds = ["Event Handlers Practice", "Props Practice", "JSX Practice", "Effect Practice"]
+const allProjectIds = ["Event Handlers Practice", "Props Practice", "JSX Practice", "Effect Practice", "CSS Modules Multi-File Project"]
 
 export default function LearnReactBasics() {
   const [showSyntax, setShowSyntax] = useState(false);
@@ -32,6 +32,11 @@ export default function LearnReactBasics() {
   const [countEffect, setCountEffect] = useState(0);
   const [countState, setCountState] = useState(0);
   const [showStatusBar, setShowStatusBar] = useState(true);
+  const styles = {
+    container: "container",
+    heading: "heading",
+    button: "button"
+  };
   const [completedProjects, setCompletedProjects] = useState(() => {
     const saved = localStorage.getItem("reactBasicsProgress");
     return saved ? JSON.parse(saved) : [];
@@ -1180,6 +1185,102 @@ You will start with a Profile function. Try combining them into a small interact
                 <li><strong>Tooling Integration:</strong> Works well with modern build tools like Webpack and Vite.</li>
               </ul>
             </p>
+            <details>
+              <summary><strong>🧾 CSS Modules Cheatsheet: Syntax, Usage, and JSX Examples</strong></summary>
+              <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "1rem" }}>
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Topic</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>CSS Modules (.module.css)</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Manual Inline Styles</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>How to Use in JSX</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Why / Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Class selector</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><code>.button</code></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>❌ N/A</td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`className={styles.button}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      The <code>.</code> prefix is for CSS files. In JSX, use <code>className</code> with the imported styles object.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Applying styles</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><code>className={styles.button}</code></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`style={{ backgroundColor: 'red' }}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`<button className={styles.button} />`}</code><br />
+                      <code>{`<button style={{ backgroundColor: 'red' }} />`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      CSS Modules are scoped classes. Inline styles are camelCase JS objects.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Property naming</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><code>border-radius: 5px;</code></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><code>borderRadius: '5px'</code></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`style={{ borderRadius: '5px' }}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      CSS uses kebab-case; React inline styles use camelCase.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Pseudo-classes</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`.button:hover { color: white; }`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>❌ Not supported</td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`className={styles.button}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      Pseudo-classes like <code>:hover</code> can only be used in CSS files (not inline styles).
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Composability</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`.btnPrimary { composes: btnBase; }`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>❌ N/A</td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`className={styles.btnPrimary}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      `composes:` lets you reuse styles from another class in CSS Modules.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}><strong>Dynamic styling</strong></td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>Use class toggle logic</td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`style={{ backgroundColor: isDark ? 'black' : 'white' }}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <code>{`className={isDark ? styles.dark : styles.light}`}</code><br />
+                      <code>{`style={{ backgroundColor: isDark ? 'black' : 'white' }}`}</code>
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      Use ternaries to conditionally apply styles or classes based on state.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p style={{ marginTop: "1rem" }}>
+                <strong>Key Takeaway:</strong> Use CSS Modules for reusable class-based styles and pseudoselectors. Use inline styles for quick, dynamic styles — but they can't handle pseudo-classes or media queries.
+              </p>
+            </details>
             <p>
               <strong>Example Usage</strong><br />
               Here's a basic example of how to use CSS Modules in a React component. As you can see, you can set a button object in your .css file and reuse it or if you need to manually set the style of an object you can do so right inside the element.
@@ -1218,145 +1319,142 @@ export default function Button() {
               background: "#007bff", color: "white", padding: "10px 20px",
               borderRadius: "4px", cursor: "pointer"
             }}>Click Me</button>
-            <ProjectPractice
-              projectId="CSS Module Practice"
-              prompt={`Now that you've learned how CSS Modules work, it's time to put them into practice!
-
-Create a simple component that uses CSS Modules to style a button, a heading, and a container. Focus on applying scoped styles, using hover effects, and making sure class names are not global.
-
-Try to: Create a container with padding and a border. Add a heading styled with a specific color and font size. Style a button with hover effects using the ":hover" pseudo-class.
-
-Your styles should be written in a separate CSS Module file (e.g., MyComponent.module.css), imported, and used via className={styles.className}.
-`}
-              defaultCode={`// Simulated CSS Modules: In a real project, create a file called MyComponent.module.css
-// and add styles like the examples shown in comments below.
+            <CSSProject
+              projectId="CSS Modules Multi-File"
+              prompt="Build a component styled using a separate CSS Module file. Use a styles object and apply classes to each element. Your CSS should live in a separate file and simulate module scoping.
+              In the CSS Module file, you will implement a .container, .heading, .button, and .button:hover classes. In the JSX file, you will simulate this module file and call these classes in each element
+              labeled in MyComponent()."
+              jsxCodeDefault={`// TODO: Simulate imported CSS Modules object
+// delete this section once imports
 
 const styles = {
-  container: "container",  // TODO: Add padding, border, and center alignment in CSS
-  heading: "heading",      // TODO: Style with large font size and custom color
-  button: "button"         // TODO: Add background color, padding, and hover styles
+  // TODO: Apply container styling (padding, border, etc.)
+  container: "container", 
+  // TODO: Style this heading (color, font size)
+  heading: "heading",  
+  // TODO: Style this heading (color, font size)   
+  button: "button"        
+};
+
+// TODO: Create a styled component using styles
+function MyComponent() {
+  return (
+    <div>
+      {/* TODO: Add heading and style with 
+      styles.heading */}
+      <h1>Styled with CSS Modules</h1>
+
+      {/* TODO: Add button and style with 
+      styles.button */}
+      <button>Click Me</button>
+    </div>
+  );
+}
+`}
+              cssCodeDefault={`/* TODO: Add scoped styles for each class below */
+
+.container {
+  /*TODO: PADDING set to 20px, TEXT-ALIGN set 
+  to center, BORDER set to 1px solid color, BACKGROUND COLOR set to white */
+}
+
+.container h1 {
+  /*TODO: COLOR set to purple, FONT-SIZE set 
+  to 2rem*/
+}
+
+.button {
+  /*TODO: BACKGROUND-COLOR set to blue, COLOR set 
+  to white, PADDING set to 10px, CURSOR set to pointer
+  */
+}
+
+.button:hover {
+  /*TODO: BACKGROUND-COLOR set to purple*/
+}
+`}
+              answerJSX={`// Simulated styles object
+const styles = {
+  container: "container",
+  button: "button"
 };
 
 function MyComponent() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Hello CSS Modules</h1>
+      <h1>Styled with CSS Modules</h1>
       <button className={styles.button}>Click Me</button>
     </div>
   );
 }
-
-/*
-📄 MyComponent.module.css (for reference only — do not paste in JS file):
-
-.container {
+`}
+              answerCSS={`.container {
   padding: 20px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid #000;
+  background-color: white;
   text-align: center;
 }
 
-.heading {
+.container h1 {
+  color: purple;
   font-size: 2rem;
-  color: teal;
 }
 
 .button {
-  background-color: #007bff;
+  background-color: blue;
   color: white;
-  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
+  padding: 10px;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #0056b3;
-}
-*/
-`}
-              hint={[
-                "Simulate your CSS module with a 'styles' object mapping classNames.",
-                "Use className={styles.className} to apply styles in JSX.",
-                "Imagine your CSS module includes .container, .heading, and .button classes.",
-                "Include hover styles in your simulated CSS description."
-              ]
-              }
-              answer={`// MyComponent.jsx
-import React from "react";
-import styles from "./MyComponent.module.css";
-
-function MyComponent() {
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.heading}>Hello CSS Modules</h1>
-      <button className={styles.button}>Click Me</button>
-    </div>
-  );
-}
-
-// MyComponent.module.css
-.container {
-  padding: 20px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.heading {
-  font-size: 2rem;
-  color: teal;
-}
-
-.button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #0056b3;
+  background-color: purple;
 }
 `}
-              onEvaluate={(transpileCode) => {
+              onEvaluate={(jsx, css) => {
                 const messages = [];
+                console.log(jsx);
+                console.log(css);
 
-                if (!transpileCode.includes("import styles from") || !transpileCode.includes('".module.css"')) {
-                  messages.push("❌ You must import the CSS Module using `import styles from './MyComponent.module.css'`.");
+                if (!jsx.includes("className: styles.container")) {
+                  messages.push("❌ Use styles.container on the outer <div>.");
                 }
 
-                if (!transpileCode.includes("className={styles.container}")) {
-                  messages.push("❌ Apply the `styles.container` class to your main wrapper.");
+                if (!jsx.includes("className: styles.button")) {
+                  messages.push("❌ Use styles.button on the <button>.");
                 }
 
-                if (!transpileCode.includes("className={styles.heading}")) {
-                  messages.push("❌ Your heading should use `styles.heading` for scoped styling.");
+                // ✅ CSS checks
+                if (!css.includes(".button:hover") || !css.includes("background-color: purple")) {
+                  messages.push("❌ Add a hover styles to your button class in CSS.");
                 }
 
-                if (!transpileCode.includes("className={styles.button}")) {
-                  messages.push("❌ Apply the `styles.button` class to your button.");
+                if (!css.includes(".button") || !css.includes("background-color")
+                  || !css.includes("color") || !css.includes("padding") || !css.includes("cursor")) {
+                  messages.push("❌ Add a button styles to your button class in CSS.");
+                }
+
+                if (!css.includes("h1") || !css.includes("color")
+                  || !css.includes("font-size")) {
+                  messages.push("❌ Add a heading styles to your heading class in CSS.");
+                }
+
+                if (!css.includes(".container") || !css.includes("border")
+                  || !css.includes("text-align") || !css.includes("padding") || !css.includes("background-color")) {
+                  messages.push("❌ Add a container styles to your container class in CSS.");
                 }
 
                 const passed = messages.length === 0;
-
-                const message = passed
-                  ? "✅ Excellent! You've correctly applied scoped styles using CSS Modules."
-                  : messages.join("\n");
-
-                try {
-                  const componentFunc = new Function("React", `${transpileCode}; return MyComponent;`);
-                  const component = React.createElement(componentFunc(React));
-                  return { message, component };
-                } catch (err) {
-                  return { message: `❌ Code Error: ${err.message}`, component: null };
-                }
+                return {
+                  message: passed ? "✅ CSS + JSX look great!" : messages.join("\n"),
+                  passed,
+                };
               }}
               rootComponent="MyComponent"
               markCompleted={markCompleted}
             />
+
           </div>
         )
         }
