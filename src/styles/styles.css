@@ -8,10 +8,10 @@ to this section's matching END comment to see page-specific styles.
 ******************************************************************************/
 /* Our default values set as CSS variables */
 :root {
-  --color-bg: #FFFFA0;
-  --color-text-main: #000000;
-  --color-text-header: #2800FF;
-  --color-primary: #AFECE0;
+  --color-bg: #16112b;
+  --color-text-main: #ffffff;
+  --color-text-header: #dbd3ff;
+  --color-primary: #a0c4ff;
   --wrapper-height: 85vh;
   --image-max-width: 320px;
   --font-family: "HK Grotesk";
@@ -84,7 +84,7 @@ a:not(.btn--remix):visited {
   font-style: normal;
   font-weight: normal;
   font-size: 1.1rem;
-  color: #000;
+  color: #ffffff;
   text-decoration: none;
   border-style: none;
 }
@@ -127,6 +127,68 @@ body {
   justify-content: center;
 }
 
+/* Header styling */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #E3FDF5 0%, #FFE6FA 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 900px;
+}
+
+.page-header:hover {
+  animation: wiggle 0.4s ease-in-out;
+  cursor: pointer;
+}
+
+.animated-title {
+  font-size: 4rem;
+  font-family: var(--font-family-header);
+  color: #2b2d42;
+  margin: 0;
+  animation: bounceIn 1s ease-in-out;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  color: #444;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Keyframes for animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 /* Page titles */
 h1 {
   color: var(--color-text-header);
@@ -137,8 +199,46 @@ h1 {
   line-height: 105%;
 }
 
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
+}
+
+h3 {
+  text-align: left;
+  padding: 1rem 2rem;
+  background-color: #FFFFA0;
+  color: #333;
+  border-radius: 12px;
+  width: fit-content;
+  margin: 1rem 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+h3:hover {
+  animation: wiggle 0.4s ease-in-out;
+}
+
+
 .page h1 {
   font-size: 48px;
+}
+
+.concept-section p {
+  color: rgb(34, 23, 48);
+}
+
+.intro-section p {
+  color: rgb(255, 255, 255);
+}
+
+.tips-box ul {
+  color: white;
 }
 
 .page p {
@@ -274,9 +374,11 @@ h2 {
 }
 
 .status-toggle-button.visible {
-  bottom: 60px; /* Just above the status bar */
+  bottom: 60px;
+  /* Just above the status bar */
 }
 
 .status-toggle-button.hidden {
-  bottom: 10px; /* At the very bottom of the screen */
+  bottom: 10px;
+  /* At the very bottom of the screen */
 }

@@ -67,7 +67,11 @@ export default function LearnReactBasics() {
   return (
     <div className="page">
       {showConfetti && <Confetti width={width} height={height} />}
-      <h1>React Basics</h1>
+      <header className="page-header">
+        <h1 className="animated-title">🚀 React Basics</h1>
+        <p className="page-subtitle">Your journey into modern, interactive UIs starts here.</p>
+      </header>
+
 
       <button
         onClick={() => setShowStatusBar(!showStatusBar)}
@@ -99,7 +103,7 @@ export default function LearnReactBasics() {
         </p>
 
         <div className="tips-box">
-          <h3>Tips for Learning React</h3>
+          <h2 style={{color: "white"}}>Tips for Learning React</h2>
           <ul>
             <li>Components are reusable and should stay focused on one thing.</li>
             <li>Props are read-only, while state can change over time.</li>
@@ -472,13 +476,13 @@ export function MyComponent() {
         </h2>
         {showJSX &&
           <div>
+            <h3>What is JSX?</h3>
             <p>
-              <strong>What is JSX?</strong><br />
               JSX stands for <strong>JavaScript XML</strong>. It's a syntax extention for JavaScript that looks similar to HTML.
               JSX makes it easier to write and understand the structure of your UI components by allowing you to describe what the UI should look like in a more familar HTML-like syntax.
             </p>
+            <h3>Why is JSX important?</h3>
             <p>
-              <strong>Why is JSX important?</strong>
               <ul>
                 <li>Improves readability of your component code.</li>
                 <li>Lets you write UI code close to your logic (in JavaScript)</li>

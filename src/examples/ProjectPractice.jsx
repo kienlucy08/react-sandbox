@@ -85,7 +85,20 @@ export default function ProjectPractice({ projectId, prompt, extraContent, defau
 
     return (
         <div className="code-practice">
-            <p><strong>This a project '{projectId}'!</strong></p>
+            <h3
+                style={{
+                    textAlign: "center",
+                    padding: "1rem 2rem",
+                    backgroundColor: "#FFFFA0",
+                    color: "#333",
+                    borderRadius: "12px",
+                    width: "fit-content",
+                    margin: "1rem auto",
+                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)"
+                }}
+            >
+                <strong>{projectId} Project</strong>
+            </h3>
             <p><strong>Prompt: </strong>{prompt}</p>
             {extraContent}
             <textarea
